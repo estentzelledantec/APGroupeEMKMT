@@ -11,7 +11,7 @@ include_once(dirname(__DIR__).'/back-end/connexion.php');
     <title>Modifier animation</title>
     <link rel="stylesheet" href="../Asset/css/style_intervenant.css">
 </head>
-
+<!-- Mario Galaxy -->
 <body>
 
 <header class="header">
