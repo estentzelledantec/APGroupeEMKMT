@@ -74,7 +74,7 @@ require __DIR__ . '../back-end/resultatback.php';
     </main>
 	<!-- FOOTER -->
     <footer class="footer">
-        © 2026 - Role
+        © 2026 - Role...........
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

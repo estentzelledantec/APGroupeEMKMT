@@ -5,6 +5,7 @@ require_once(dirname(__DIR__).'/Intervenant/back-end/acc.php');
 include_once(dirname(__DIR__).'/back-end/connexion.php');
 
 ?>
+<!-- Patate -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
