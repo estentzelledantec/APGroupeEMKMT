@@ -1,0 +1,378 @@
+/* ======================================================================== */
+/* FEUILLE DE STYLE PRINCIPALE - ESPACE ÉLÈVE                               */
+/* ======================================================================== */
+
+/* ======================================================================== */
+/* 1. CONFIGURATION DE BASE (S'applique à toutes les pages)                 */
+/* ======================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #bcd5ff; /* Fond bleu clair global par défaut */
+}
+
+/* Utilité pour forcer le fond bleu clair si besoin */
+body.bg-bleu-clair { 
+    background-color: #c9dff7; 
+}
+
+
+/* ======================================================================== */
+/* 2. STRUCTURE GLOBALE (Éléments partagés sur tout le site)                */
+/* ======================================================================== */
+
+/* --- EN-TÊTE FIXE (Header) --- */
+.header {
+    background-color: #5f84c7;
+    padding: 0 30px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: sticky; /* Reste fixé en haut lors du défilement */
+    top: 0;
+    z-index: 1000;
+    color: white;
+}
+
+.header-left {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.header-nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.header-nav a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- LIENS ET UTILISATEUR DANS LE HEADER --- */
+.user-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.user-tag {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s;
+}
+
+.user-link:hover .user-tag {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-retour {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    transition: transform 0.2s;
+}
+
+/* --- BOUTONS STANDARDS --- */
+.btn-primary {
+    background-color: #7a66ad;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-deconnexion {
+    background-color: #000;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* --- CONTENEUR PRINCIPAL --- */
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.main-content h1 {
+    font-size: 30px;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+}
+
+/* --- PIED DE PAGE (Footer) --- */
+.footer {
+    background-color: #5f84c7;
+    text-align: center;
+    padding: 25px;
+    color: white;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+
+/* ======================================================================== */
+/* 3. PAGE : ACCUEIL (accueil.php)                                          */
+/* ======================================================================== */
+
+/* --- MISE EN PAGE ACCUEIL --- */
+.page-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.section-animations {
+    flex: 1;
+}
+
+/* --- CARTES D'ANIMATION (Grille) --- */
+.animation-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    position: relative;
+    color: #333;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    background-color: #e0d0f0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #5f4d8b;
+}
+
+.horaires-tag {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: #888;
+    font-size: 0.85em;
+}
+
+.card-footer {
+    text-align: right;
+    margin-top: 15px;
+}
+
+/* --- BADGES DE STATUT DANS LES CARTES --- */
+.status-label {
+    float: right;
+    font-weight: bold;
+    font-size: 13px;
+}
+.color-green { color: #2ecc71; }
+.color-red { color: #e74c3c; }
+
+/* Styles additionnels pour les bordures de statuts */
+.card-valid { border-left: 8px solid #2ecc71; }
+.card-locked { 
+    border-left: 8px solid #e74c3c; 
+    background-color: #fafafa; 
+}
+
+/* --- BARRE LATÉRALE DE FILTRES --- */
+.sidebar-filters {
+    width: 250px;
+}
+
+.filter-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-box h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.filter-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-select {
+    width: 100%; 
+    padding: 8px; 
+    margin-bottom: 15px; 
+    border-radius: 6px; 
+    border: 1px solid #ccc;
+    background-color: #fcfcfc;
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.reset-filter-container {
+    text-align: center; 
+    margin-top: 15px;
+}
+
+.btn-reset {
+    color: #e74c3c; 
+    font-size: 13px; 
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-reset:hover {
+    text-decoration: underline;
+}
+
+
+/* ======================================================================== */
+/* 4. PAGE : MES INSCRIPTIONS (inscriptions.php)                            */
+/* ======================================================================== */
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- CARTES HORIZONTALES --- */
+.card-horizontal { 
+    background: white; 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+}
+
+.card-left { flex: 1; }
+.card-right { 
+    text-align: right; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+
+.description { 
+    color: #888; 
+    font-size: 0.9em; 
+    margin-bottom: 15px; 
+}
+
+/* --- BOUTON DE DÉSINCRIPTION SPÉCIFIQUE --- */
+.btn-desinscrire { 
+    background: #e0e0e0; 
+    color: #333; 
+    padding: 8px 15px; 
+    border-radius: 4px; 
+    text-decoration: none; 
+    font-size: 0.9em; 
+    border: 1px solid #ccc; 
+}
+
+/* --- INDICATEURS DE STATUT (Règle des 7 jours) --- */
+.status-indicator { 
+    font-weight: bold; 
+    font-size: 0.95em; 
+}
+
+.status-vert, .text-modifiable { color: #27ae60; }
+.status-rouge, .text-bloquee { color: #e74c3c; }
+.status-bleu, .text-passee { color: #3b3bc2; }
+
+.icon { 
+    border: 2px solid; 
+    border-radius: 50%; 
+    padding: 0 5px; 
+    margin-right: 5px; 
+}
+
+
+/* ======================================================================== */
+/* 5. PAGE : MON PROFIL (compte.php)                                        */
+/* ======================================================================== */
+
+.profile-card {
+    max-width: 600px;
+}
+
+.profile-details {
+    line-height: 1.8; 
+    margin-bottom: 25px;
+}
+
+.profile-footer-text {
+    color: #666; 
+    font-size: 0.9em; 
+    border-top: 1px solid #eee; 
+    padding-top: 15px;
+}

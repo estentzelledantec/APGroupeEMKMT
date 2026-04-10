@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #5f84c7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    background-color: #5f84c7;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+}
+
+.header-nav a {
+    text-decoration: none;
+}
+
+.btn-connexion {
+    background-color: black;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* MAIN */
+.main-content {
+    background-color: #bcd5ff;
+    text-align: center;
+    flex: 1;
+    padding: 40px 20px;
+}
+
+.main-content h1 {
+    color: #6d8fdc;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+/* IMAGE */
+.image-container {
+    padding: 25px;
+    display: inline-block;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #4b6fb8;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 14px;
+}
+
+/* ========================================== */
+/* CLASSES SPECIFIQUES POUR LA CONNEXION     */
+/* ========================================== */
+
+.login-card {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.error-msg {
+    color: #e74c3c;
+    background-color: #fdeaea;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
