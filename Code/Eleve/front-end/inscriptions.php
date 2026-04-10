@@ -14,7 +14,7 @@ try {
 } catch (Exception $e) {
     die("Erreur de connexion à la base de données."); 
 }
-
+//test4564651651
 // ========================================================================
 // 2. RÉCUPÉRATION DES INSCRIPTIONS DE L'ÉLÈVE
 // ========================================================================

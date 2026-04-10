@@ -1,3 +1,4 @@
+//tralala
 <?php 
 session_start(); 
 ?>

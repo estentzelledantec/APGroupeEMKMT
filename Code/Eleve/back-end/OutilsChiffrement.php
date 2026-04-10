@@ -23,7 +23,7 @@ function chiffrer_donnee($message_clair) {
     
     // 2. Chiffrement du message avec la clé secrète et le nonce
     $texte_chiffre = sodium_crypto_secretbox($message_clair, $nonce, CLE_SECRETE_PROJET);
-    
+    //test12948156156156
     // 3. Préparation pour la Base de Données
     // On "colle" le nonce devant le texte chiffré.
     // On encode tout en Base64 pour transformer les caractères binaires illisibles en texte classique compatible avec un champ VARCHAR.

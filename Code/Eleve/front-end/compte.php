@@ -17,7 +17,7 @@ try {
 } catch (Exception $e) {
     die("Erreur de connexion à la base de données."); 
 }
-
+//test35444
 // ========================================================================
 // 2. RÉCUPÉRATION DES INFORMATIONS DE L'UTILISATEUR
 // ========================================================================
