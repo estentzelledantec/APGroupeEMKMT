@@ -73,6 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 TEST SI IL Y A UNE ANIMATION EN COURS
             =========================================================
             */
+            /*
+            Vive les patates
+            */
 
             $stmt = $pdo->prepare('SELECT * 
                 FROM animation 
