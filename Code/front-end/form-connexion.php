@@ -34,7 +34,8 @@ session_start();
     </main>
 
     <footer class="footer">
-        <p>© 2026 - Lycée | Tous droits réservés</p>
+        <p>© 2026 - Lycée | Tous droits réservés............</p> 
     </footer>
 </body>
 </html>
+//Bonjour

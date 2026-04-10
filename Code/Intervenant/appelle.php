@@ -14,6 +14,7 @@ include_once(dirname(__DIR__).'/back-end/connexion.php');
     </style>
 </head>
 <body>
+    <!-- Enchantix -->
 
     <!-- HEADER -->
     <header class="header">
