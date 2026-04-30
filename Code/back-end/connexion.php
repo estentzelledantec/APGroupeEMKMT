@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'] ?? '';
 
-    try {
+    try { 
         // 2. APPEL DU MODÈLE SQL GÉNÉRAL
         include 'code_sql/code_sql_General.php';
 

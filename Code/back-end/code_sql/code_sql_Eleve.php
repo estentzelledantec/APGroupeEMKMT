@@ -6,7 +6,7 @@ if (isset($bdd)) {
     if (!isset($filtre_theme)) { $filtre_theme = null; }
     if (!isset($tri_date)) { $tri_date = 'ASC'; }
     
-    // IMPORTANT : On synchronise avec le nom utilisé dans traiter_inscriptions.php
+    // On synchronise avec le nom utilisé dans traiter_inscriptions.php
     // Si $id_eleve existe déjà (via traiter_inscriptions), on l'utilise, sinon on prend la session
     $id_eleve_final = $id_eleve ?? $_SESSION['user_id'] ?? null;
 

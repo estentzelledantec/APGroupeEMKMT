@@ -14,7 +14,7 @@ try {
 }
 
 // ========================================================================
-// 2. RÉCUPÉRATION DES DONNÉES (MODÈLE)
+// 2. RÉCUPÉRATION DES DONNÉES 
 // ========================================================================
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../../front-end/form-connexion.php');

@@ -25,7 +25,7 @@ $filtre_theme = filter_input(INPUT_GET, 'theme', FILTER_VALIDATE_INT);
 $tri_date = (isset($_GET['tri_date']) && $_GET['tri_date'] === 'desc') ? 'DESC' : 'ASC';
 
 // ========================================================================
-// 3. APPEL DU CODE SQL (MODÈLE)
+// 3. APPEL DU CODE SQL 
 // ========================================================================
 // On inclut le fichier qui contient toutes nos requêtes préparées
 include '../../back-end/code_sql/code_sql_Eleve.php';
