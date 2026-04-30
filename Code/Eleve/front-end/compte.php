@@ -1,60 +1,51 @@
 <?php
 // ========================================================================
-// 1. INITIALISATION ET CONNEXION À LA BASE DE DONNÉES
+// 1. INITIALISATION
 // ========================================================================
 session_start();
-
-// Inclusion de la boîte à outils pour le déchiffrement des données
 require_once '../back-end/OutilsChiffrement.php'; 
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=animationsfld;charset=utf8', 'root', '');
-    
-    // Désactivation de l'émulation des requêtes préparées pour la sécurité 
     $bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // Gestion des erreurs en mode Exception pour ne pas afficher d'informations sensibles
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
-    die("Erreur de connexion à la base de données."); 
+    die("Erreur de connexion."); 
 }
-//test35444
+
 // ========================================================================
-// 2. RÉCUPÉRATION DES INFORMATIONS DE L'UTILISATEUR
+// 2. RÉCUPÉRATION DES DONNÉES (MODÈLE)
 // ========================================================================
-$id_user = $_SESSION['id_user'] ?? $_SESSION['id'] ?? 1;
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../../front-end/form-connexion.php');
+    exit();
+}
+$id_user = $_SESSION['user_id'];
 
-// Requête préparée pour aller chercher les informations de l'élève connecté
-$sql = "SELECT nom, prenom, classe, emel FROM inscrit WHERE ID = :id_user";
-$req = $bdd->prepare($sql);
-
-// Sécurisation de l'identifiant en forçant le type "Entier" pour contrer les injections SQL
-$req->bindValue(':id_user', $id_user, PDO::PARAM_INT);
-$req->execute();
-
-// On récupère les données sous forme de tableau associatif
-$user_bdd = $req->fetch(PDO::FETCH_ASSOC);
+// APPEL DU FICHIER SQL 
+include '../../back-end/code_sql/code_sql_Eleve.php';
 
 // ========================================================================
 // 3. LOGIQUE MÉTIER : DÉCHIFFREMENT INTELLIGENT
 // ========================================================================
 if ($user_bdd) {
-    // La fonction dechiffrer_donnee() tente de déchiffrer la chaîne.
-    // Si elle échoue (parce que le nom est encore en clair dans la BDD), on garde la valeur brute.
-    $nom_clair = dechiffrer_donnee($user_bdd['nom']) ?: $user_bdd['nom'];
-    $prenom_clair = dechiffrer_donnee($user_bdd['prenom']) ?: $user_bdd['prenom'];
+    // Tentative de déchiffrement. Si Erreur_Decodage, on garde la valeur brute.
+    $nom_clair = dechiffrer_donnee($user_bdd['nom']);
+    if ($nom_clair === "Erreur_Decodage") { $nom_clair = $user_bdd['nom']; }
+
+    $prenom_clair = dechiffrer_donnee($user_bdd['prenom']);
+    if ($prenom_clair === "Erreur_Decodage") { $prenom_clair = $user_bdd['prenom']; }
     
-    // Vérification pour la classe qui peut être vide
     if (!empty($user_bdd['classe'])) {
-        $classe_clair = dechiffrer_donnee($user_bdd['classe']) ?: $user_bdd['classe'];
+        $classe_clair = dechiffrer_donnee($user_bdd['classe']);
+        if ($classe_clair === "Erreur_Decodage") { $classe_clair = $user_bdd['classe']; }
     } else {
         $classe_clair = "Non renseignée";
     }
 
     $email_clair = !empty($user_bdd['emel']) ? $user_bdd['emel'] : "Non renseigné";
 } else {
-    // Valeurs de sécurité par défaut si l'utilisateur n'est pas trouvé dans la base
-    $nom_clair = "Introuvable";
-    $prenom_clair = "Introuvable";
+    $nom_clair = $prenom_clair = "Introuvable";
     $classe_clair = "Non renseignée";
     $email_clair = "Non renseigné";
 }
@@ -65,7 +56,7 @@ if ($user_bdd) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Informations - Espace Élève</title>
-    <link rel="stylesheet" href="/../../../Asset/css/style_eleve.css">
+    <link rel="stylesheet" href="../../Asset/css/style_eleve.css">
 </head>
 <body class="bg-bleu-clair">
     <header class="header">
