@@ -6,35 +6,24 @@ session_start();
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=animationsfld;charset=utf8', 'root', '');
-    
-    // Désactivation de l'émulation des requêtes préparées pour une protection SQL
     $bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // Gestion des erreurs en mode Exception pour ne pas fuiter d'infos sensibles
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
-    die("Erreur de connexion à la base de données."); 
+    die("Erreur de connexion."); 
 }
-//test4564651651
+
 // ========================================================================
-// 2. RÉCUPÉRATION DES INSCRIPTIONS DE L'ÉLÈVE
+// 2. RÉCUPÉRATION DES DONNÉES (MODÈLE)
 // ========================================================================
-$id_user = $_SESSION['id_user'] ?? $_SESSION['id'] ?? 1;
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../../front-end/form-connexion.php');
+    exit();
+}
 
-// Requête préparée pour récupérer les animations (Triées de la plus lointaine à la plus proche : DESC)
-$sql = "SELECT a.ID, a.Titre, a.DateHeureDeb, t.libelle AS theme_nom 
-        FROM inscription i
-        INNER JOIN animation a ON i.id_animation = a.ID
-        INNER JOIN theme t ON a.idTheme = t.ID
-        WHERE i.id_inscrit = :id_user
-        ORDER BY a.DateHeureDeb DESC";
+$id_user = $_SESSION['user_id'];
 
-$requete = $bdd->prepare($sql);
-
-// On associe l'ID de l'utilisateur en forçant le type "Entier" pour bloquer les injections
-$requete->bindValue(':id_user', $id_user, PDO::PARAM_INT);
-$requete->execute();
-
-$mes_inscriptions = $requete->fetchAll(PDO::FETCH_ASSOC);
+// APPEL DU FICHIER SQL CENTRALISÉ
+include '../../back-end/code_sql/code_sql_Eleve.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">

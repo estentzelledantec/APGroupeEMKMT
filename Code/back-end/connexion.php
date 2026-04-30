@@ -2,110 +2,65 @@
 session_start();
 require_once 'base.php'; 
 
-// On vérifie que le formulaire a été envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // 1. RÉCUPÉRATION ET NETTOYAGE DES DONNÉES
+    // 1. RÉCUPÉRATION ET NETTOYAGE
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'] ?? '';
 
     try {
-        /* =========================================================
-           PARTIE A : RECHERCHE DANS L'ADMINISTRATION (Bureaux)
-           =========================================================
-        */
-        $stmt = $pdo->prepare("SELECT * FROM administration WHERE emel = :email");
-        $stmt->execute(['email' => $email]);
-        $user = $stmt->fetch();
+        // 2. APPEL DU MODÈLE SQL GÉNÉRAL
+        include 'code_sql/code_sql_General.php';
 
-        if ($user && password_verify($password, $user['mdphasher'])) {
-            // On crée la session
+        // 3. LOGIQUE DE CONNEXION (DÉCISION)
+
+        // CAS 1 : C'est un Administrateur / Bureau
+        if ($user_admin && password_verify($password, $user_admin['mdphasher'])) {
             session_regenerate_id(true); 
-            $_SESSION['user_id'] = $user['ID'];
-            $_SESSION['role_id'] = $user['STATUT'];
+            $_SESSION['user_id'] = $user_admin['ID'];
+            $_SESSION['role_id'] = $user_admin['STATUT'];
 
-            // Redirection selon le bureau (le STATUT)
-            if ($user['STATUT'] == 4) {
-                header('Location: ../Administrateur/accueil.php');
-            } elseif ($user['STATUT'] == 3) {
-                header('Location: ../VieScolaire/accueil.php');
-            } elseif ($user['STATUT'] == 2) {
-                header('Location: ../GestAnimation/accueil.php');
-            } else {
-                header('Location: ../index.php');
-            }
+            $redirections = [
+                4 => '../Administrateur/accueil.php',
+                3 => '../VieScolaire/accueil.php',
+                2 => '../GestAnimation/accueil.php'
+            ];
+            $url = $redirections[$user_admin['STATUT']] ?? '../index.php';
+            header("Location: $url");
             exit();
         }
 
-        /* =========================================================
-           PARTIE B : RECHERCHE CHEZ LES ÉLÈVES (Table Inscrit)
-           =========================================================
-        */
-        $stmt = $pdo->prepare("SELECT * FROM inscrit WHERE emel = :email");
-        $stmt->execute(['email' => $email]);
-        $eleve = $stmt->fetch();
-
-        if ($eleve && password_verify($password, $eleve['mdphasher'])) {
+        // CAS 2 : C'est un Élève
+        if ($user_eleve && password_verify($password, $user_eleve['mdphasher'])) {
             session_regenerate_id(true);
-            $_SESSION['user_id'] = $eleve['ID'];
-            $_SESSION['role_id'] = $eleve['STATUT'];
-            
+            $_SESSION['user_id'] = $user_eleve['ID'];
+            $_SESSION['role_id'] = $user_eleve['STATUT'];
             header('Location: ../Eleve/front-end/accueil.php');
             exit();
         }
 
-        
-        /* =========================================================
-           PARTIE C : RECHERCHE CHEZ LES INTERVENANTS (Table Animateur)
-           =========================================================
-        */
-        $stmt = $pdo->prepare("SELECT * FROM animateur WHERE emel = :email");
-        $stmt->execute(['email' => $email]);
-        $anim = $stmt->fetch();
-
-        if ($anim && password_verify($password, $anim['mdphasher'])) {
+        // CAS 3 : C'est un Animateur / Intervenant
+        if ($user_anim && password_verify($password, $user_anim['mdphasher'])) {
             session_regenerate_id(true);
-            $_SESSION['user_id'] = $anim['ID'];
+            $_SESSION['user_id'] = $user_anim['ID'];
             $_SESSION['role_id'] = 'intervenant';
 
-            /*
-            =========================================================
-                TEST SI IL Y A UNE ANIMATION EN COURS
-            =========================================================
-            */
-            /*
-            Vive les patates
-            */
-
-            $stmt = $pdo->prepare('SELECT * 
-                FROM animation 
-                WHERE animation.DateHeureDeb < NOW() AND animation.DateHeureFin > NOW()'
-            );
-            $stmt->execute();
-            $animation = $stmt->fetch();
-
-            if ($animation) {
+            if ($animation_en_cours) {
                 header('Location: ../Intervenant/appelle.php');
-                exit();
             } else {
                 header('Location: ../Intervenant/accueil.php');
-                exit();
             }
-            
+            exit();
         }
 
-        /* =========================================================
-           PARTIE D : SI LA CONNEXION ÉCHOUE
-           =========================================================
-        */
+        // CAS 4 : ÉCHEC
         $_SESSION['error'] = "Email ou mot de passe incorrect.";
         header('Location: ../front-end/form-connexion.php');
         exit();
 
     } catch (PDOException $e) {
-        // En cas de problème avec la base de données
         error_log($e->getMessage());
-        $_SESSION['error'] = "Erreur technique de connexion.";
+        $_SESSION['error'] = "Erreur technique.";
         header('Location: ../front-end/form-connexion.php');
         exit();
     }

@@ -6,82 +6,41 @@ session_start();
 
 try {
     $bdd = new PDO('mysql:host=localhost;dbname=animationsfld;charset=utf8', 'root', '');
-    
-    // Désactivation de l'émulation des requêtes préparées pour la protection SQL 
     $bdd->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    // Gestion des erreurs en mode Exception 
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
     die("Erreur de connexion à la base de données."); 
 }
 
 // ========================================================================
-// 2. RÉCUPÉRATION ET SÉCURISATION DES DONNÉES GET (FILTRES)
+// 2. RÉCUPÉRATION ET SÉCURISATION DES DONNÉES DE SESSION ET FILTRES
 // ========================================================================
-$id_user = $_SESSION['id_user'] ?? $_SESSION['id'] ?? 1;
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../../front-end/form-connexion.php');
+    exit();
+}
 
-// On force la validation en tant qu'entier pour sécuriser la saisie du filtre
+$id_user = $_SESSION['user_id'];
 $filtre_theme = filter_input(INPUT_GET, 'theme', FILTER_VALIDATE_INT);
-
-// Sécurisation du tri : seules deux valeurs strictes sont autorisées (ASC ou DESC)
-// Cela empêche toute injection SQL dans la clause ORDER BY
 $tri_date = (isset($_GET['tri_date']) && $_GET['tri_date'] === 'desc') ? 'DESC' : 'ASC';
 
 // ========================================================================
-// 3. REQUÊTES SQL PRÉPARÉES
+// 3. APPEL DU CODE SQL (MODÈLE)
 // ========================================================================
-
-// --- A. Récupération des thèmes (pour le menu déroulant) ---
-$req_themes = $bdd->query("SELECT ID, libelle FROM theme ORDER BY libelle ASC");
-$tous_les_themes = $req_themes->fetchAll(PDO::FETCH_ASSOC);
-
-// --- B. Construction de la requête principale (Animations) ---
-$sql = "SELECT a.ID, a.Titre, a.DateHeureDeb, t.libelle AS theme_nom 
-        FROM animation a
-        INNER JOIN theme t ON a.idTheme = t.ID
-        WHERE a.annulation = 0";
-
-// Si un thème valide a été sélectionné, on ajoute la condition à la requête
-if ($filtre_theme) {
-    $sql .= " AND a.idTheme = :id_theme";
-}
-
-// On ajoute le tri 
-$sql .= " ORDER BY a.DateHeureDeb " . $tri_date;
-
-$requete = $bdd->prepare($sql);
-
-// On associe la variable au marqueur SQL en forçant le typage (PARAM_INT)
-if ($filtre_theme) {
-    $requete->bindValue(':id_theme', $filtre_theme, PDO::PARAM_INT);
-}
-
-$requete->execute();
-$animations = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-// --- C. Récupération des inscriptions de l'élève ---
-$req_check = $bdd->prepare("SELECT id_animation FROM inscription WHERE id_inscrit = :id_user");
-$req_check->bindValue(':id_user', $id_user, PDO::PARAM_INT);
-$req_check->execute();
-// On récupére directement un tableau avec juste les IDs d'animations avec "FETCH_COLUMN"
-$liste_inscriptions = $req_check->fetchAll(PDO::FETCH_COLUMN);
+// On inclut le fichier qui contient toutes nos requêtes préparées
+include '../../back-end/code_sql/code_sql_Eleve.php';
 
 // ======================================================================
-// 4. ALGORITHME DE FILTRAGE (On retire les animations déjà inscrites)
+// 4. ALGORITHME DE FILTRAGE (Logique d'affichage)
 // ======================================================================
 $animations_dispo = [];
-
-// On parcourt toutes les animations trouvées dans la base de données
 foreach ($animations as $anim) {
-    // Si l'ID de l'animation n'est PAS dans la liste des inscriptions de l'élève...
     if (!in_array($anim['ID'], $liste_inscriptions)) {
-        // ... alors on la garde pour l'afficher !
         $animations_dispo[] = $anim;
     }
 }
-
-// On remplace le tableau complet par notre tableau filtré
 $animations = $animations_dispo;
+
 // ======================================================================
 ?>
 <!DOCTYPE html>
