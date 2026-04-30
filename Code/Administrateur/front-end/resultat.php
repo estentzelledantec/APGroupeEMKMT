@@ -3,6 +3,7 @@
 require_once '../../back-end/base.php';
 require_once __DIR__ . '../../back-end/crypto.php';
 require __DIR__ . '../../back-end/resultatback.php';
+require __DIR__ . '../../back-end/modification.php';
 ?>
 
 <!doctype html>
@@ -68,9 +69,8 @@ require __DIR__ . '../../back-end/resultatback.php';
 						<?= htmlspecialchars($p['prenom']) ?> 
 						<?= htmlspecialchars($p['nom']) ?> 
 					<?php endif; ?>
-
-						<button id="bouton" class="bi bi-pencil btn btn-outline-primary" ></button>
-						<button id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></button>
+						<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
+						<a  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
 					</li>
 						
 				<?php endforeach; ?>
@@ -97,7 +97,7 @@ require __DIR__ . '../../back-end/resultatback.php';
 		
 <!-- FOOTER -->
     <footer class="footer">
-        © 2026 - Role..............
+        © 2026 - Role
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base
-$pdo = new PDO("mysql:host=localhost;dbname=animationsfld;charset=utf8", "root", "");
+$pdo = new PDO("mysql:host=localhost;dbname=animationsfld;charset=utf8", "administrateur", "Btssio2017");
 
 // Récupérer les articles par catégorie
 $stmt = $pdo->prepare("SELECT ID, libelle FROM statut");

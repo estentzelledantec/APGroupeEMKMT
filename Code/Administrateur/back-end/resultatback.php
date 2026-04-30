@@ -10,7 +10,7 @@ if ($id === null) {
 
     // Charger les animateurs
     $reqPersonnes = $pdo->query("
-        SELECT nom, prenom, emel
+        SELECT id, nom, prenom, emel
         FROM animateur
     ");
     $personnes = $reqPersonnes->fetchAll();
@@ -30,13 +30,13 @@ if ($id === null) {
 
     // Charger les personnes ayant ce statut
     $reqPersonnes = $pdo->prepare("
-        SELECT nom, prenom, emel 
+        SELECT id, nom, prenom, emel 
         FROM inscrit
         WHERE STATUT = ?
 
         UNION
 
-        SELECT '' AS nom, '' AS prenom, emel
+        SELECT id, '' AS nom, '' AS prenom, emel
         FROM administration
         WHERE STATUT = ?
     ");
