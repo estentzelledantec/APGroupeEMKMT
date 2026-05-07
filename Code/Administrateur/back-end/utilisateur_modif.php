@@ -3,39 +3,28 @@ $pdo = new PDO("mysql:host=localhost;dbname=animationsfld;charset=utf8", "admini
 require_once __DIR__ . '/crypto.php';
 
 $id = $_GET['id'] ?? null;
+$table = $_GET['table'] ?? null;
 
-if (!$id) {
-    die("Erreur : aucun ID fourni.");
+
+
+if (!$id || !$table) {
+    die("Erreur : aucun ID ou table fourni.");
 }
 
-$user = null;
-$table = null;
 
-/* Recherche dans animateur */
-$stmt = $pdo->prepare("SELECT *, 'animateur' AS table_name FROM animateur WHERE ID = ?");
+/* Recherche dans la bonne table */
+$stmt = $pdo->prepare("SELECT * FROM $table WHERE ID = ?");
 $stmt->execute([$id]);
 $user = $stmt->fetch();
-
-if (!$user) {
-    /* Recherche dans inscrit */
-    $stmt = $pdo->prepare("SELECT *, 'inscrit' AS table_name FROM inscrit WHERE ID = ?");
-    $stmt->execute([$id]);
-    $user = $stmt->fetch();
-}
-
-if (!$user) {
-    /* Recherche dans administration */
-    $stmt = $pdo->prepare("SELECT *, 'administration' AS table_name FROM administration WHERE ID = ?");
-    $stmt->execute([$id]);
-    $user = $stmt->fetch();
-
-}
 
 if (!$user) {
     die("Erreur : utilisateur introuvable.");
 }
 
-$table = $user['table_name'];
-$user['tel']  = decryptData($user['tel']);
-$user['emel'] = decryptData($user['emel']);
+if (isset($user['tel'])) {
+    $user['tel'] = decryptData($user['tel']);
+}
+if (isset($user['emel'])) {
+    $user['emel'] = decryptData($user['emel']);
+}
 ?>

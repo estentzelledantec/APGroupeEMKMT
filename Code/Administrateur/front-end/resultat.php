@@ -46,31 +46,26 @@ require __DIR__ . '../../back-end/modification.php';
 			<ul>
 				<?php foreach ($personnes as $p): ?>
 					<li>
+					
+						<?php 
+							// Déchiffrer l'email si nécessaire
+							$email = htmlspecialchars($p['emel']);
+							
+						?>
 						
-					<?php if ($administration):
-					// Tentative de déchiffrement
+						<?php if ($p['table_name'] === 'administration'): ?>
 
-					$email_dechiffre = decryptData($p['emel']);
+							<?= $email ?>
 
-					// Si decryptData renvoie null → l'email n'était pas chiffré
-					if ($email_dechiffre === null) {
-						$email_affiche = $p['emel']; // email en clair
-					} else {
-						$email_affiche = $email_dechiffre; // email déchiffré
-					}
-					?>
+						<?php else: ?>
 
-            <?= htmlspecialchars($email_affiche) ?>
+							<?= htmlspecialchars($p['prenom']) ?> 
+							<?= htmlspecialchars($p['nom']) ?>
 
+						<?php endif; ?>
 
-
-					<?php else: ?>
-
-						<?= htmlspecialchars($p['prenom']) ?> 
-						<?= htmlspecialchars($p['nom']) ?> 
-					<?php endif; ?>
-						<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
-						<a  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
+							<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
+							<a  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
 					</li>
 						
 				<?php endforeach; ?>
