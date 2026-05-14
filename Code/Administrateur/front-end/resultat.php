@@ -50,22 +50,27 @@ require __DIR__ . '../../back-end/modification.php';
 						<?php 
 							// Déchiffrer l'email si nécessaire
 							$email = htmlspecialchars($p['emel']);
+							$nom = htmlspecialchars($p['nom']);
+							$prenom = htmlspecialchars($p['prenom']);
 							
 						?>
 						
 						<?php if ($p['table_name'] === 'administration'): ?>
 
-							<?= $email ?>
+							<?= $email ?> 
 
 						<?php else: ?>
 
-							<?= htmlspecialchars($p['prenom']) ?> 
-							<?= htmlspecialchars($p['nom']) ?>
+							<?php if ($nom === '' && $prenom === ''): ?>
+								<?= $email ?>
+							<?php else: ?>
+								<?= $prenom . ' ' . $nom ?>
+							<?php endif; ?>
 
 						<?php endif; ?>
 
 							<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
-							<a  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
+							<a href = "/Administrateur/back-end/suppression.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>"  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
 					</li>
 						
 				<?php endforeach; ?>
@@ -78,6 +83,9 @@ require __DIR__ . '../../back-end/modification.php';
                 Statuts
             </button>
             <ul class="dropdown-menu">
+				<a class="dropdown-item" href="/Administrateur/front-end/resultat.php">
+							Animateur
+						</a>
                 <?php foreach ($stat as $cat): ?>
                     <li>
                         <a class="dropdown-item" href="/Administrateur/front-end/resultat.php?id=<?= $cat['ID'] ?>">

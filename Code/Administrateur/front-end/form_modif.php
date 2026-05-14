@@ -35,27 +35,29 @@ require __DIR__ . '/../back-end/utilisateur_modif.php';
 
 				
 				<!-- ID caché -->
-			<input type="hidden" name="ID" value="<?= $user['ID'] ?>">
+			
 			<input type="hidden" name="table" value="<?= $table ?>">
 
-			<div class="form-group">
-				<label>Prénom :</label>
-				<input type="text" name="prenom" class="form-control" value="<?= htmlspecialchars($user['prenom']) ?>">
-			</div>
+			<?php if ($table !== 'administration'): ?>
+				<div class="form-group">
+					<label>Prénom :</label>
+					<input type="text" name="prenom" class="form-control" value="<?= htmlspecialchars($user['prenom'] ?? '') ?>">
+				</div>
 
-			<div class="form-group">
-				<label>Nom :</label>
-				<input type="text" name="nom" class="form-control" value="<?= htmlspecialchars($user['nom']) ?>">
-			</div>
+				<div class="form-group">
+					<label>Nom :</label>
+					<input type="text" name="nom" class="form-control" value="<?= htmlspecialchars($user['nom'] ?? '') ?>">
+				</div>
+			<?php endif; ?>
 
 			<div class="form-group">
 				<label>Téléphone :</label>
-				<input type="text" name="tel" class="form-control" value="<?= htmlspecialchars($user['tel']) ?>">
+				<input type="text" name="tel" class="form-control" value="<?= htmlspecialchars($user['tel'] ?? '') ?>">
 			</div>
 
 			<div class="form-group">
 				<label>Email :</label>
-				<input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['emel']) ?>">
+				<input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['emel'] ?? '') ?>">
 			</div>
 
 			<div class="form-group">

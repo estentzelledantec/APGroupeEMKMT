@@ -34,7 +34,7 @@ if ($id === null) {
     FROM inscrit
     WHERE STATUT = ?
 
-    UNION
+    UNION 
 
     SELECT id, '' AS nom, '' AS prenom, emel, 'administration' AS table_name
     FROM administration
@@ -43,23 +43,24 @@ if ($id === null) {
 
     $reqPersonnes->execute([$id, $id]);
     $personnes = $reqPersonnes->fetchAll();
+	
 	foreach ($personnes as &$p) {
-    if (isset($p['nom'])) {
-        $nom_dechiffre = decryptData($p['nom']);
-        $p['nom'] = $nom_dechiffre !== null ? $nom_dechiffre : $p['nom'];
-    }
+		if (isset($p['nom'])) {
+			$nom_dechiffre = decryptData($p['nom']);
+			$p['nom'] = $nom_dechiffre !== null ? $nom_dechiffre : $p['nom'];
+		}
 
-    if (isset($p['prenom'])) {
-        $prenom_dechiffre = decryptData($p['prenom']);
-        $p['prenom'] = $prenom_dechiffre !== null ? $prenom_dechiffre : $p['prenom'];
-    }
+		if (isset($p['prenom'])) {
+			$prenom_dechiffre = decryptData($p['prenom']);
+			$p['prenom'] = $prenom_dechiffre !== null ? $prenom_dechiffre : $p['prenom'];
+		}
 
-    if (isset($p['emel'])) {
-        $email_dechiffre = decryptData($p['emel']);
-        $p['emel'] = $email_dechiffre !== null ? $email_dechiffre : $p['emel'];
-    }
+		if (isset($p['emel'])) {
+			$email_dechiffre = decryptData($p['emel']);
+			$p['emel'] = $email_dechiffre !== null ? $email_dechiffre : $p['emel'];
+		}
 }
-
+unset($p);
 }
 
 
