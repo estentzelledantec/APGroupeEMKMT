@@ -1,5 +1,5 @@
 <?php
-$animations = require("../back-end/getAnimations.php");
+$animations = require("../back-end/getAnimationsAVenir.php");
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ $animations = require("../back-end/getAnimations.php");
 </header>
 
 <main class="main-content">
-    <h1>Les animations :</h1>
+    <h1>Les animations à venir:</h1>
 
     <div class="animations">
         <?php foreach ($animations as $anim):
