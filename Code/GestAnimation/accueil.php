@@ -1,5 +1,5 @@
 <?php
-$animations = require("back-end/getAnimations.php");
+$animations = require("back-end/getAnimationsWeek.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +15,8 @@ $animations = require("back-end/getAnimations.php");
     <a class="header-left" href="accueil.php">Gestionnaire des Animations</a>
     <nav class="header-nav">
         <a href="front-end/aVenir.php">Animations à venir</a>
-        <a href="#">Animations passées</a>
-        <a href="#">Statistiques</a>
+        <a href="front-end/passe.php">Animations passées</a>
+        <a href="front-end/statistiques.php">Statistiques</a>
     </nav>
     <div class="header-right">
         <a href="../back-end/deconnexion.php" class="btn-deconnexion">Déconnecter</a>
@@ -24,7 +24,7 @@ $animations = require("back-end/getAnimations.php");
 </header>
 
 <main class="main-content">
-    <h1>Les animations :</h1>
+    <h1>Les animations de la semaine:</h1>
 
     <div class="animations">
         <?php foreach ($animations as $anim):
