@@ -51,7 +51,7 @@ require __DIR__ . '../back-end/resultatback.php';
                 <?php
 						$date = new DateTime();
 
-						if ($date->format('m') == 5) {
+						if ($date->format('m') == 7) {
 							echo '<a href="../back-end/nettoyage.php" class="btn btn-outline-primary">Nettoyage</a>';
 						}
 				?>
