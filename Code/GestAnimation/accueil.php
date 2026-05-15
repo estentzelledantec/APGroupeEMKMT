@@ -15,7 +15,7 @@ $animations = require("back-end/getAnimationsWeek.php");
     <a class="header-left" href="accueil.php">Gestionnaire des Animations</a>
     <nav class="header-nav">
         <a href="front-end/aVenir.php">Animations à venir</a>
-        <a href="front-end/passe.php">Animations passées</a>
+        <a href="front-end/passees.php">Animations passées</a>
         <a href="front-end/statistiques.php">Statistiques</a>
     </nav>
     <div class="header-right">

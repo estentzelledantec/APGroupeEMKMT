@@ -15,8 +15,8 @@ $animations = require("../back-end/getAnimationsAVenir.php");
     <a class="header-left" href="../accueil.php">Gestionnaire des Animations</a>
     <nav class="header-nav">
         <a href="aVenir.php">Animations à venir</a>
-        <a href="#">Animations passées</a>
-        <a href="#">Statistiques</a>
+        <a href="passees.php">Animations passées</a>
+        <a href="statistiques.php">Statistiques</a>
     </nav>
     <div class="header-right">
         <a href="../../back-end/deconnexion.php" class="btn-deconnexion">Déconnecter</a>
