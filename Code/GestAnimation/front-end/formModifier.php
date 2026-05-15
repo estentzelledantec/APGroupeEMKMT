@@ -62,12 +62,20 @@ try {
             <input type="text" name="titre" required
                    value="<?= htmlspecialchars($anim['Titre'], ENT_QUOTES, 'UTF-8') ?>">
 
-            <label>Date</label>
-            <input type="datetime-local" name="dateDeb" required
-                   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureDeb'])) ?>">
+            <label>Date de début</label>
+			<input type="datetime-local" name="dateDeb" required
+				   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureDeb'])) ?>">
+
+			<label>Date de fin</label>
+			<input type="datetime-local" name="dateFin" required
+				   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureFin'])) ?>">
 
             <label>Commentaire</label>
             <textarea name="commentaire" required><?= htmlspecialchars($anim['commentaire'], ENT_QUOTES, 'UTF-8') ?></textarea>
+			
+			<label>Matériel</label>
+			<input type="text" name="materiel" required
+				   value="<?= htmlspecialchars($anim['materiel'], ENT_QUOTES, 'UTF-8') ?>">
 
             <label>Min</label>
             <input type="number" name="min" required
