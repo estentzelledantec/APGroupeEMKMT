@@ -2,6 +2,7 @@
 session_start();
 
 
+
 if (!isset($_SESSION['role_id'])) {
     header('Location: ../front-end/form-connexion.php');
     exit();
@@ -46,8 +47,14 @@ require __DIR__ . '../back-end/resultatback.php';
             <h1 class="m-0">Administrateur</h1>
 
             <div id="bouton" class="d-flex gap-2">
-                <a class="btn btn-outline-primary" type="button">Importer</a>
-                <button type="button" class="btn btn-outline-primary" disabled data-bs-toggle="button">Nettoyage</button>
+                <a href = "/Administrateur/front-end/form_importer"class="btn btn-outline-primary" type="button">Importer</a>
+                <?php
+						$date = new DateTime();
+
+						if ($date->format('m') == 5) {
+							echo '<a href="../back-end/nettoyage.php" class="btn btn-outline-primary">Nettoyage</a>';
+						}
+				?>
                 <a href="/Administrateur/front-end/form_ajout.php" class="btn btn-outline-primary">Ajouter un compte</a>
             </div>
         </div>
@@ -74,7 +81,7 @@ require __DIR__ . '../back-end/resultatback.php';
     </main>
 	<!-- FOOTER -->
     <footer class="footer">
-        © 2026 - Role...........
+        © 2026 - Role
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

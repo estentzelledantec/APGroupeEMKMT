@@ -33,8 +33,15 @@ require __DIR__ . '../../back-end/modification.php';
 				<h1>Statut : <?= htmlspecialchars($statut['libelle']) ?></h1>
 
 				<div id="bouton" class="d-flex gap-2">
-					<a class="btn btn-outline-primary" type="button">Importer</a>
-					<button type="button" class="btn btn-outline-primary" disabled data-bs-toggle="button">Nettoyage</button>
+					<a href ="/Administrateur/front-end/form_importer" class="btn btn-outline-primary" type="button">Importer</a>
+					<?php
+						$date = new DateTime();
+
+						if ($date->format('m') == 5) {
+							echo '<a href="../back-end/nettoyage.php" class="btn btn-outline-primary">Nettoyage</a>';
+						}
+					?>
+
 					<a href="/Administrateur/front-end/form_ajout.php" class="btn btn-outline-primary">Ajouter un compte</a>
 				</div>
 			</div>
