@@ -26,6 +26,10 @@ $animations = require("back-end/getAnimationsWeek.php");
 <main class="main-content">
     <h1>Les animations de la semaine:</h1>
 
+	<a href="front-end/formAjout.php" class="btn-ajout">
+		Ajouter une animation
+	</a>
+	
     <div class="animations">
         <?php foreach ($animations as $anim):
             $alerte = ($anim['nbInscrits'] < $anim['nbreMin']);

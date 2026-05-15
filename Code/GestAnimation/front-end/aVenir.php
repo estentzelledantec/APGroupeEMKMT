@@ -25,6 +25,10 @@ $animations = require("../back-end/getAnimationsAVenir.php");
 
 <main class="main-content">
     <h1>Les animations à venir:</h1>
+	
+	<a href="formAjout.php" class="btn-ajout">
+		Ajouter une animation
+	</a>
 
     <div class="animations">
         <?php foreach ($animations as $anim):

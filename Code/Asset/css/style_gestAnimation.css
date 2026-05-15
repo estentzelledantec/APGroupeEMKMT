@@ -184,6 +184,26 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+.btn-ajout {
+    position: fixed;
+    top: 110px;
+    right: 30px;
+    background: #2563eb;
+    color: white;
+    padding: 15px 22px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.btn-ajout:hover {
+    background: #1e40af;
+    transform: translateY(-3px);
+}
+
 /* FORMULAIRES */
 
 .form-container {
