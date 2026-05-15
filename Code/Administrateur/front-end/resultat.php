@@ -33,9 +33,17 @@ require __DIR__ . '../../back-end/modification.php';
 				<h1>Statut : <?= htmlspecialchars($statut['libelle']) ?></h1>
 
 				<div id="bouton" class="d-flex gap-2">
-					<a class="btn btn-outline-primary" type="button">Importer</a>
-					<button type="button" class="btn btn-outline-primary" disabled data-bs-toggle="button">Nettoyage</button>
+					<a href ="/Administrateur/front-end/form_importer" class="btn btn-outline-primary" type="button">Importer</a>
+					<?php
+						$date = new DateTime();
+
+						if ($date->format('m') == 5) {
+							echo '<a href="../back-end/nettoyage.php" class="btn btn-outline-primary">Nettoyage</a>';
+						}
+					?>
+
 					<a href="/Administrateur/front-end/form_ajout.php" class="btn btn-outline-primary">Ajouter un compte</a>
+					
 				</div>
 			</div>
 
@@ -71,6 +79,7 @@ require __DIR__ . '../../back-end/modification.php';
 
 							<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
 							<a href = "/Administrateur/back-end/suppression.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>"  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
+							<a href = "/Administrateur/front-end/form_changement_mdp.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?> "class="btn btn-outline-primary">Réinitialiser le mot de passe</a>
 					</li>
 						
 				<?php endforeach; ?>
