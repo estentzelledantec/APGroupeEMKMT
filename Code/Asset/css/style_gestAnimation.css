@@ -1,3 +1,7 @@
+/* =========================
+   RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +16,9 @@ body {
 }
 
 
-/* HEADER*/
+/* =========================
+   HEADER
+========================= */
 
 .header {
     background: #5f84c7;
@@ -40,7 +46,7 @@ body {
 }
 
 .btn-deconnexion {
-    background: #000000 ;
+    background: #000000;
     color: white !important;
     padding: 8px 14px;
     border-radius: 6px;
@@ -54,8 +60,9 @@ body {
 }
 
 
-
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 
 .main-content {
     background: #bcd5ff;
@@ -68,31 +75,15 @@ body {
     margin-bottom: 30px;
 }
 
-/* ACCUEIL */
+
+/* =========================
+   CARTES ANIMATIONS
+========================= */
 
 .animations {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
-}
-
-.alerte {
-    background-color: #991B1B !important;
-    color: black;
-	
-}
-
-.alerte .nb-inscrit {
-    color: #FCA5A5;
-}
-
-.carte-animation.aucunInscrit {
-    background-color: #757575 !important;
-    color: black;
-}
-
-.aucunInscrit .nb-inscrit {
-    color: #C7C7C7;
 }
 
 .carte-animation {
@@ -119,7 +110,32 @@ body {
 }
 
 
-/* BOUTONS */
+/* =========================
+   ALERTES
+========================= */
+
+.alerte {
+    background-color: #991B1B !important;
+    color: black;
+}
+
+.alerte .nb-inscrit {
+    color: #FCA5A5;
+}
+
+.carte-animation.aucunInscrit {
+    background-color: #757575 !important;
+    color: black;
+}
+
+.aucunInscrit .nb-inscrit {
+    color: #C7C7C7;
+}
+
+
+/* =========================
+   BOUTONS
+========================= */
 
 .annulerAnim {
     margin-top: 10px;
@@ -213,7 +229,10 @@ body {
     transform: translateY(-3px);
 }
 
-/* FORMULAIRES */
+
+/* =========================
+   FORMULAIRES
+========================= */
 
 .form-container {
     max-width: 600px;
@@ -232,7 +251,8 @@ body {
 }
 
 .form-animation input,
-.form-animation textarea {
+.form-animation textarea,
+.form-animation select {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
@@ -246,7 +266,59 @@ body {
 }
 
 
-/*  FOOTER */
+/* =========================
+   STATISTIQUES
+========================= */
+
+.stats-container {
+    max-width: 1100px;
+    width: 100%;
+	margin: 0 auto;
+    background: #f0f0f0;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    gap: 20px;
+}
+
+.stats div {
+    background: #e5e7eb;
+    padding: 15px;
+    border-radius: 12px;
+    flex: 1;
+    text-align: center;
+}
+
+.stats h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.stats p {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.stats-card {
+    padding: 12px;
+    margin: 8px 0;
+    background: #e5e7eb;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer {
     background: #5f84c7;
