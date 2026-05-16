@@ -25,7 +25,7 @@ $lieux = $pdo->query("SELECT * FROM lieu ORDER BY batiment, numsalle")->fetchAll
     <h1>Ajouter une animation</h1>
 
     <div class="form-container">
-        <form method="POST" action="../back-end/ajouter.php" class="form-animation">
+        <form method="POST" action="../back-end/ajouterAnimation.php" class="form-animation">
 
             <label>Titre</label>
             <input type="text" name="titre" required>
@@ -50,7 +50,7 @@ $lieux = $pdo->query("SELECT * FROM lieu ORDER BY batiment, numsalle")->fetchAll
 
             <!-- THEME -->
             <label>Thème</label>
-            <select name="idTheme" required>
+            <select name="idTheme">
                 <option value="">-- Choisir un thème --</option>
                 <?php foreach ($themes as $t): ?>
                     <option value="<?= $t['ID'] ?>">

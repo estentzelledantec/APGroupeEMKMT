@@ -13,7 +13,7 @@ SELECT
     COUNT(inscription.id_inscrit) AS nbInscrits
 FROM animation
 JOIN theme ON animation.idTheme = theme.ID
-JOIN inscription ON animation.ID = inscription.id_animation
+LEFT JOIN inscription ON animation.ID = inscription.id_animation
 WHERE YEARWEEK(animation.DateHeureDeb, 1) = YEARWEEK(CURDATE(), 1)
 GROUP BY animation.ID
 ORDER BY animation.DateHeureDeb ASC

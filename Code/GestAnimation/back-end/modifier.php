@@ -13,47 +13,22 @@ if (!isset($_POST['id']) || !filter_var($_POST['id'], FILTER_VALIDATE_INT)) {
 $id = (int) $_POST['id'];
 
 $titre = trim($_POST['titre']);
-if (empty($titre)) {
-    die("Titre invalide");
-}
-
 $commentaire = trim($_POST['commentaire']);
-
-if (!filter_var($_POST['min'], FILTER_VALIDATE_INT)) {
-    die("Min invalide");
-}
-
-if (!filter_var($_POST['max'], FILTER_VALIDATE_INT)) {
-    die("Max invalide");
-}
+$materiel = trim($_POST['materiel']);
 
 $min = (int) $_POST['min'];
 $max = (int) $_POST['max'];
 
-if ($min > $max) {
-    die("Min ne peut pas être supérieur au max");
-}
+$dateDeb = str_replace('T', ' ', $_POST['dateDeb']) . ':00';
+$dateFin = str_replace('T', ' ', $_POST['dateFin']) . ':00';
 
-$dateDebInput = $_POST['dateDeb'] ?? null;
-$dateFinInput = $_POST['dateFin'] ?? null;
+$idAnimateur = (int) $_POST['idAnimateur'];
+$idLieu = (int) $_POST['idLieu'];
 
-if (empty($dateDebInput) || empty($dateFinInput)) {
-    die("Dates invalides");
-}
-
-$dateDeb = str_replace('T', ' ', $dateDebInput) . ':00';
-$dateFin = str_replace('T', ' ', $dateFinInput) . ':00';
-
-if (strtotime($dateFin) <= strtotime($dateDeb)) {
-    die("La date de fin doit être après la date de début");
-}
-
-$materiel = trim($_POST['materiel']);
-if (empty($materiel)) {
-    die("Matériel invalide");
-}
+$newTheme = trim($_POST['newTheme']);
 
 try {
+
     $pdo = new PDO(
         "mysql:host=localhost;dbname=animationsfld;charset=utf8",
         "root",
@@ -64,32 +39,58 @@ try {
         ]
     );
 
-    $sql = "UPDATE animation 
-            SET Titre = :titre,
+    if ($newTheme !== "") {
+
+        $stmtTheme = $pdo->prepare(
+            "INSERT INTO theme (libelle) VALUES (?)"
+        );
+
+        $stmtTheme->execute([$newTheme]);
+
+        $idTheme = $pdo->lastInsertId();
+
+    } else {
+
+        $idTheme = (int) $_POST['idTheme'];
+
+    }
+
+    $sql = "UPDATE animation
+            SET
+                Titre = :titre,
                 DateHeureDeb = :dateDeb,
                 DateHeureFin = :dateFin,
                 commentaire = :commentaire,
+                materiel = :materiel,
                 nbreMin = :min,
                 nbreMax = :max,
-                materiel = :materiel
+                idTheme = :theme,
+                idAnimateur = :animateur,
+                idLieu = :lieu
             WHERE ID = :id";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
-    $stmt->bindValue(':dateDeb', $dateDeb, PDO::PARAM_STR);
-    $stmt->bindValue(':dateFin', $dateFin, PDO::PARAM_STR);
-    $stmt->bindValue(':commentaire', $commentaire, PDO::PARAM_STR);
-    $stmt->bindValue(':min', $min, PDO::PARAM_INT);
-    $stmt->bindValue(':max', $max, PDO::PARAM_INT);
-    $stmt->bindValue(':materiel', $materiel, PDO::PARAM_STR);
-    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
-    $stmt->execute();
+    $stmt->execute([
+        ':titre' => $titre,
+        ':dateDeb' => $dateDeb,
+        ':dateFin' => $dateFin,
+        ':commentaire' => $commentaire,
+        ':materiel' => $materiel,
+        ':min' => $min,
+        ':max' => $max,
+        ':theme' => $idTheme,
+        ':animateur' => $idAnimateur,
+        ':lieu' => $idLieu,
+        ':id' => $id
+    ]);
 
     header("Location: ../accueil.php?success=1");
     exit();
 
 } catch (PDOException $e) {
+
     die("Erreur serveur");
+
 }
+?>

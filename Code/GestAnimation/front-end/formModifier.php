@@ -1,4 +1,4 @@
-<?php 
+<?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -9,6 +9,7 @@ if (!isset($_GET['id']) || !filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
 $id = (int) $_GET['id'];
 
 try {
+
     $pdo = new PDO("mysql:host=localhost;dbname=animationsfld;charset=utf8", "root", "", [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_EMULATE_PREPARES => false
@@ -23,6 +24,14 @@ try {
     if (!$anim) {
         die("Animation introuvable");
     }
+
+    $themes = $pdo->query("SELECT * FROM theme ORDER BY libelle")->fetchAll(PDO::FETCH_ASSOC);
+
+    $animateurs = $pdo->query("SELECT * FROM animateur ORDER BY nom")
+        ->fetchAll(PDO::FETCH_ASSOC);
+
+    $lieux = $pdo->query("SELECT * FROM lieu ORDER BY batiment, numsalle")
+        ->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
     die("Erreur serveur");
@@ -40,58 +49,142 @@ try {
 
 <header class="header">
     <a class="header-left" href="../accueil.php">Gestionnaire des Animations</a>
+
     <nav class="header-nav">
         <a href="aVenir.php">Animations à venir</a>
         <a href="passees.php">Animations passées</a>
         <a href="statistiques.php">Statistiques</a>
     </nav>
+
     <div class="header-right">
-        <a href="../../back-end/deconnexion.php" class="btn-deconnexion">Déconnecter</a>
+        <a href="../../back-end/deconnexion.php" class="btn-deconnexion">
+            Déconnecter
+        </a>
     </div>
 </header>
 
 <main class="main-content">
+
     <h1>Modifier l'animation</h1>
 
     <div class="form-container">
+
         <form method="POST" action="../back-end/modifier.php" class="form-animation">
 
-            <input type="hidden" name="id" value="<?= htmlspecialchars($anim['ID']) ?>">
+            <input type="hidden" name="id"
+                   value="<?= htmlspecialchars($anim['ID']) ?>">
 
             <label>Titre</label>
-            <input type="text" name="titre" required
-                   value="<?= htmlspecialchars($anim['Titre'], ENT_QUOTES, 'UTF-8') ?>">
+            <input type="text"
+                   name="titre"
+                   required
+                   value="<?= htmlspecialchars($anim['Titre']) ?>">
 
             <label>Date de début</label>
-			<input type="datetime-local" name="dateDeb" required
-				   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureDeb'])) ?>">
+            <input type="datetime-local"
+                   name="dateDeb"
+                   required
+                   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureDeb'])) ?>">
 
-			<label>Date de fin</label>
-			<input type="datetime-local" name="dateFin" required
-				   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureFin'])) ?>">
+            <label>Date de fin</label>
+            <input type="datetime-local"
+                   name="dateFin"
+                   required
+                   value="<?= date('Y-m-d\TH:i', strtotime($anim['DateHeureFin'])) ?>">
 
             <label>Commentaire</label>
-            <textarea name="commentaire" required><?= htmlspecialchars($anim['commentaire'], ENT_QUOTES, 'UTF-8') ?></textarea>
-			
-			<label>Matériel</label>
-			<input type="text" name="materiel" required
-				   value="<?= htmlspecialchars($anim['materiel'], ENT_QUOTES, 'UTF-8') ?>">
+            <textarea name="commentaire" required><?= htmlspecialchars($anim['commentaire']) ?></textarea>
+
+            <label>Matériel</label>
+            <input type="text"
+                   name="materiel"
+                   required
+                   value="<?= htmlspecialchars($anim['materiel']) ?>">
 
             <label>Min</label>
-            <input type="number" name="min" required
+            <input type="number"
+                   name="min"
+                   required
                    value="<?= htmlspecialchars($anim['nbreMin']) ?>">
 
             <label>Max</label>
-            <input type="number" name="max" required
+            <input type="number"
+                   name="max"
+                   required
                    value="<?= htmlspecialchars($anim['nbreMax']) ?>">
 
-            <button type="submit" class="btn-enregistrer">Enregistrer</button>
-			<a href="../accueil.php" class="btn-retour">Retour</a>
+            <label>Thème existant</label>
+            <select name="idTheme">
+
+                <option value="">-- Choisir un thème --</option>
+
+                <?php foreach ($themes as $t): ?>
+
+                    <option value="<?= $t['ID'] ?>"
+                        <?= ($anim['idTheme'] == $t['ID']) ? 'selected' : '' ?>>
+
+                        <?= htmlspecialchars($t['libelle']) ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+            <label>Ou ajouter un nouveau thème</label>
+            <input type="text"
+                   name="newTheme"
+                   placeholder="Créer un nouveau thème">
+
+            <label>Animateur</label>
+            <select name="idAnimateur" required>
+
+                <?php foreach ($animateurs as $a): ?>
+
+                    <option value="<?= $a['ID'] ?>"
+                        <?= ($anim['idAnimateur'] == $a['ID']) ? 'selected' : '' ?>>
+
+                        <?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+            <label>Lieu</label>
+            <select name="idLieu" required>
+
+                <?php foreach ($lieux as $l): ?>
+
+                    <option value="<?= $l['ID'] ?>"
+                        <?= ($anim['idLieu'] == $l['ID']) ? 'selected' : '' ?>>
+
+                        <?= htmlspecialchars($l['batiment'] . ' ' . $l['numsalle']) ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+            <button type="submit" class="btn-enregistrer">
+                Enregistrer
+            </button>
+
+            <a href="../accueil.php" class="btn-retour">
+                Retour
+            </a>
+
         </form>
+
     </div>
+
 </main>
 
-<footer class="footer">© 2026 - Gestionnaire des Animations</footer>
+<footer class="footer">
+    © 2026 - Gestionnaire des Animations
+</footer>
 
 </body>
 </html>
