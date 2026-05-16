@@ -86,6 +86,15 @@ body {
     color: #FCA5A5;
 }
 
+.carte-animation.aucunInscrit {
+    background-color: #757575 !important;
+    color: black;
+}
+
+.aucunInscrit .nb-inscrit {
+    color: #C7C7C7;
+}
+
 .carte-animation {
     background: #eeeeee;
     padding: 20px;

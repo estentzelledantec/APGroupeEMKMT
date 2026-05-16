@@ -31,10 +31,22 @@ $animations = require("../back-end/getAnimationsAVenir.php");
 	</a>
 
     <div class="animations">
+
         <?php foreach ($animations as $anim):
-            $alerte = ($anim['nbInscrits'] < $anim['nbreMin']);
+
+            $alerte = (
+                $anim['nbInscrits'] < $anim['nbreMin']
+                && $anim['nbInscrits'] > 0
+            );
+
+            $aucunInscrit = ($anim['nbInscrits'] == 0);
+
         ?>
-        <div class="carte-animation <?= $alerte ? 'alerte' : '' ?>">
+
+        <div class="carte-animation
+            <?= $alerte ? 'alerte' : '' ?>
+            <?= $aucunInscrit ? 'aucunInscrit' : '' ?>">
+
             <div class="top">
                 <strong><?= htmlspecialchars($anim['Titre']) ?></strong>
                 <span class="nb-inscrit">
@@ -47,25 +59,36 @@ $animations = require("../back-end/getAnimationsAVenir.php");
             <div>Catégorie : <?= htmlspecialchars($anim['theme']) ?></div>
             <div>Date : <?= date("d/m/Y H:i", strtotime($anim['DateHeureDeb'])) ?></div>
 
-            <?php if ($alerte): ?>
-                <div style="color: #FECACA; font-weight:bold;"> Minimum non atteint !</div>
+			<?php if ($aucunInscrit): ?>
+                <div style="color: white; font-weight:bold;">
+                    Aucun inscrit !
+                </div>
             <?php endif; ?>
+            <?php if ($alerte): ?>
+                <div style="color: #FECACA; font-weight:bold;">
+                    Minimum non atteint !
+                </div>
+            <?php endif; ?>
+			
 
-            <form method="POST" action="../back-end/annuler.php">
+            <form method="POST" action="back-end/annuler.php">
                 <input type="hidden" name="id_animation" value="<?= $anim['ID'] ?>">
                 <button class="annulerAnim" onclick="return confirm('Supprimer cette animation ?')">
                     Annuler
                 </button>
             </form>
 
-            <form method="GET" action="../front-end/formModifier.php">
-				<input type="hidden" name="id" value="<?= $anim['ID'] ?>">
-				<button type="submit" class="btn-modifier">
-					Modifier
-				</button>
-			</form>
+            <form method="GET" action="front-end/formModifier.php">
+                <input type="hidden" name="id" value="<?= $anim['ID'] ?>">
+                <button type="submit" class="btn-modifier">
+                    Modifier
+                </button>
+            </form>
+
         </div>
+
         <?php endforeach; ?>
+
     </div>
 </main>
 
