@@ -1,8 +1,3 @@
-<?php 
-require __DIR__ . '/../back-end/utilisateur_modif.php';
-?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -29,45 +24,25 @@ require __DIR__ . '/../back-end/utilisateur_modif.php';
 	<main class="main-content">
 	  <section class="story">
 		
-		<h2>Modifier un compte</h2>
+		<h2>Réinitialiser le mot de passe</h2>
 		
-		<form method="POST" action="../back-end/modification.php">
+		<form  method="POST" action="../back-end/modification.php">
 
-				
-				<!-- ID caché -->
-			
-			<input type="hidden" name="table" value="<?= $table ?>">
-
-			<?php if ($table !== 'administration'): ?>
-				<div class="form-group">
-					<label>Prénom :</label>
-					<input type="text" name="prenom" class="form-control" value="<?= htmlspecialchars($user['prenom'] ?? '') ?>">
-				</div>
-
-				<div class="form-group">
-					<label>Nom :</label>
-					<input type="text" name="nom" class="form-control" value="<?= htmlspecialchars($user['nom'] ?? '') ?>">
-				</div>
+			<input type="hidden" name="ID" value="<?= $_GET['id'] ?>">
+			<input type="hidden" name="table" value="<?= $_GET['table'] ?>">
+		
+		<div class="form-group">
+			<label>Nouveau mot de passe : </label>
+			<input type="password" name="mot_de_passe" class="form-control">
+			<?php if (!empty($erreurs['mot_de_passe'])): ?>
+				<small style="color:red;"><?= $erreurs['mot_de_passe'] ?></small>
 			<?php endif; ?>
+		</div>		
 
-			<div class="form-group">
-				<label>Téléphone :</label>
-				<input type="text" name="tel" class="form-control" value="<?= htmlspecialchars($user['tel'] ?? '') ?>">
-			</div>
+		<button type="submit" class="btn btn-primary">Réinitialiser le mot de passe</button>
 
-			<div class="form-group">
-				<label>Email :</label>
-				<input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['emel'] ?? '') ?>">
-			</div>
-
-			<div class="form-group">
-				<label>Mot de passe :</label>
-				<input type="password" name="mot_de_passe" class="form-control">
-				<small>(Laisser vide pour ne pas changer le mot de passe)</small>
-			</div>
-
-			<button type="submit" class="btn btn-primary">Modifier</button>
-
+			<br> 
+		
 		</form>
 		
 	  </section>

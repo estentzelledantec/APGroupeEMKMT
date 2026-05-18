@@ -1,5 +1,5 @@
 <?php
-$animations = require("../back-end/getAnimations.php");
+$animations = require("../back-end/getAnimationsAVenir.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +15,8 @@ $animations = require("../back-end/getAnimations.php");
     <a class="header-left" href="../accueil.php">Gestionnaire des Animations</a>
     <nav class="header-nav">
         <a href="aVenir.php">Animations à venir</a>
-        <a href="#">Animations passées</a>
-        <a href="#">Statistiques</a>
+        <a href="passees.php">Animations passées</a>
+        <a href="statistiques.php">Statistiques</a>
     </nav>
     <div class="header-right">
         <a href="../../back-end/deconnexion.php" class="btn-deconnexion">Déconnecter</a>
@@ -24,13 +24,29 @@ $animations = require("../back-end/getAnimations.php");
 </header>
 
 <main class="main-content">
-    <h1>Les animations :</h1>
+    <h1>Les animations à venir:</h1>
+	
+	<a href="formAjout.php" class="btn-ajout">
+		Ajouter une animation
+	</a>
 
     <div class="animations">
+
         <?php foreach ($animations as $anim):
-            $alerte = ($anim['nbInscrits'] < $anim['nbreMin']);
+
+            $alerte = (
+                $anim['nbInscrits'] < $anim['nbreMin']
+                && $anim['nbInscrits'] > 0
+            );
+
+            $aucunInscrit = ($anim['nbInscrits'] == 0);
+
         ?>
-        <div class="carte-animation <?= $alerte ? 'alerte' : '' ?>">
+
+        <div class="carte-animation
+            <?= $alerte ? 'alerte' : '' ?>
+            <?= $aucunInscrit ? 'aucunInscrit' : '' ?>">
+
             <div class="top">
                 <strong><?= htmlspecialchars($anim['Titre']) ?></strong>
                 <span class="nb-inscrit">
@@ -43,25 +59,36 @@ $animations = require("../back-end/getAnimations.php");
             <div>Catégorie : <?= htmlspecialchars($anim['theme']) ?></div>
             <div>Date : <?= date("d/m/Y H:i", strtotime($anim['DateHeureDeb'])) ?></div>
 
-            <?php if ($alerte): ?>
-                <div style="color: #FECACA; font-weight:bold;"> Minimum non atteint !</div>
+			<?php if ($aucunInscrit): ?>
+                <div style="color: white; font-weight:bold;">
+                    Aucun inscrit !
+                </div>
             <?php endif; ?>
+            <?php if ($alerte): ?>
+                <div style="color: #FECACA; font-weight:bold;">
+                    Minimum non atteint !
+                </div>
+            <?php endif; ?>
+			
 
-            <form method="POST" action="../back-end/annuler.php">
+            <form method="POST" action="back-end/annuler.php">
                 <input type="hidden" name="id_animation" value="<?= $anim['ID'] ?>">
                 <button class="annulerAnim" onclick="return confirm('Supprimer cette animation ?')">
                     Annuler
                 </button>
             </form>
 
-            <form method="GET" action="../front-end/formModifier.php">
-				<input type="hidden" name="id" value="<?= $anim['ID'] ?>">
-				<button type="submit" class="btn-modifier">
-					Modifier
-				</button>
-			</form>
+            <form method="GET" action="front-end/formModifier.php">
+                <input type="hidden" name="id" value="<?= $anim['ID'] ?>">
+                <button type="submit" class="btn-modifier">
+                    Modifier
+                </button>
+            </form>
+
         </div>
+
         <?php endforeach; ?>
+
     </div>
 </main>
 
