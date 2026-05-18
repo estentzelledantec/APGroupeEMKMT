@@ -12,8 +12,10 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
+// Dans back-end/base.php
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
+    // Change $pdo par $bdd ici
+    $bdd = new PDO($dsn, $user, $pass, $options); // Il faut que ce soit $bdd, pas $pdo
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }

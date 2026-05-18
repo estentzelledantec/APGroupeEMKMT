@@ -3,6 +3,7 @@
 require_once '../../back-end/base.php';
 require_once __DIR__ . '../../back-end/crypto.php';
 require __DIR__ . '../../back-end/resultatback.php';
+require __DIR__ . '../../back-end/modification.php';
 ?>
 
 <!doctype html>
@@ -32,9 +33,17 @@ require __DIR__ . '../../back-end/resultatback.php';
 				<h1>Statut : <?= htmlspecialchars($statut['libelle']) ?></h1>
 
 				<div id="bouton" class="d-flex gap-2">
-					<a class="btn btn-outline-primary" type="button">Importer</a>
-					<button type="button" class="btn btn-outline-primary" disabled data-bs-toggle="button">Nettoyage</button>
+					<a href ="/Administrateur/front-end/form_importer" class="btn btn-outline-primary" type="button">Importer</a>
+					<?php
+						$date = new DateTime();
+
+						if ($date->format('m') == 5) {
+							echo '<a href="../back-end/nettoyage.php" class="btn btn-outline-primary">Nettoyage</a>';
+						}
+					?>
+
 					<a href="/Administrateur/front-end/form_ajout.php" class="btn btn-outline-primary">Ajouter un compte</a>
+					
 				</div>
 			</div>
 
@@ -45,32 +54,32 @@ require __DIR__ . '../../back-end/resultatback.php';
 			<ul>
 				<?php foreach ($personnes as $p): ?>
 					<li>
+					
+						<?php 
+							// Déchiffrer l'email si nécessaire
+							$email = htmlspecialchars($p['emel']);
+							$nom = htmlspecialchars($p['nom']);
+							$prenom = htmlspecialchars($p['prenom']);
+							
+						?>
 						
-					<?php if ($administration):
-					// Tentative de déchiffrement
+						<?php if ($p['table_name'] === 'administration'): ?>
 
-					$email_dechiffre = decryptData($p['emel']);
+							<?= $email ?> 
 
-					// Si decryptData renvoie null → l'email n'était pas chiffré
-					if ($email_dechiffre === null) {
-						$email_affiche = $p['emel']; // email en clair
-					} else {
-						$email_affiche = $email_dechiffre; // email déchiffré
-					}
-					?>
+						<?php else: ?>
 
-            <?= htmlspecialchars($email_affiche) ?>
+							<?php if ($nom === '' && $prenom === ''): ?>
+								<?= $email ?>
+							<?php else: ?>
+								<?= $prenom . ' ' . $nom ?>
+							<?php endif; ?>
 
+						<?php endif; ?>
 
-
-					<?php else: ?>
-
-						<?= htmlspecialchars($p['prenom']) ?> 
-						<?= htmlspecialchars($p['nom']) ?> 
-					<?php endif; ?>
-
-						<button id="bouton" class="bi bi-pencil btn btn-outline-primary" ></button>
-						<button id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></button>
+							<a href = "/Administrateur/front-end/form_modif.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>" id="bouton" class="bi bi-pencil btn btn-outline-primary" ></a>
+							<a href = "/Administrateur/back-end/suppression.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?>"  id="bouton"  class="bi bi-trash3 btn btn-outline-primary"></a>
+							<a href = "/Administrateur/front-end/form_changement_mdp.php?id=<?= $p['id'] ?>&table=<?= $p['table_name'] ?> "class="btn btn-outline-primary">Réinitialiser le mot de passe</a>
 					</li>
 						
 				<?php endforeach; ?>
@@ -83,6 +92,9 @@ require __DIR__ . '../../back-end/resultatback.php';
                 Statuts
             </button>
             <ul class="dropdown-menu">
+				<a class="dropdown-item" href="/Administrateur/front-end/resultat.php">
+							Animateur
+						</a>
                 <?php foreach ($stat as $cat): ?>
                     <li>
                         <a class="dropdown-item" href="/Administrateur/front-end/resultat.php?id=<?= $cat['ID'] ?>">
@@ -97,7 +109,7 @@ require __DIR__ . '../../back-end/resultatback.php';
 		
 <!-- FOOTER -->
     <footer class="footer">
-        © 2026 - Role..............
+        © 2026 - Role
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

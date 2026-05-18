@@ -26,8 +26,7 @@ if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
         <nav class="header-nav">
             <a href="front-end/Compte.php">Mon<br>compte</a>
             <a href="front-end/Animations.php">Animations</a>
-            <a href="front-end/Statistiques.php">Statistique</a>
-            <a href="#" class="btn-pdf">Absences PDF</a>
+            <a href="front-end/Statistiques.php">Statistique</a> 
         </nav>
 
         <div class="header-right">

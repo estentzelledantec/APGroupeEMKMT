@@ -1,6 +1,5 @@
 <?php 
-require __DIR__ . '/../back-end/statut.php';
-
+require __DIR__ . '/../back-end/utilisateur_modif.php';
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +96,7 @@ require __DIR__ . '/../back-end/statut.php';
 	
 	<!-- FOOTER -->
     <footer class="footer">
-        © 2026 - Role............
+        © 2026 - Role
     </footer>
 
     <!-- Bootstrap 5 JS -->

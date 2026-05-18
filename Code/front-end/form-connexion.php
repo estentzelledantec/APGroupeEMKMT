@@ -1,4 +1,3 @@
-//tralala
 <?php 
 session_start(); 
 ?>
@@ -38,4 +37,3 @@ session_start();
     </footer>
 </body>
 </html>
-//Bonjour
