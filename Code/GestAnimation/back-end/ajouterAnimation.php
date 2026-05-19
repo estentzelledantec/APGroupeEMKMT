@@ -22,7 +22,7 @@ $idLieu = (int) $_POST['idLieu'];
 
 $idTheme = null;
 
-/* 🔥 gestion thème */
+/* gestion thème */
 if (!empty($_POST['newTheme'])) {
     $stmt = $pdo->prepare("INSERT INTO theme (libelle) VALUES (?)");
     $stmt->execute([trim($_POST['newTheme'])]);
@@ -31,7 +31,7 @@ if (!empty($_POST['newTheme'])) {
     $idTheme = (int) $_POST['idTheme'];
 }
 
-/* insertion animation */
+/* insert animation */
 $sql = "INSERT INTO animation
 (Titre, DateHeureDeb, DateHeureFin, nbreMin, nbreMax, materiel, commentaire, idTheme, idAnimateur, idLieu)
 VALUES

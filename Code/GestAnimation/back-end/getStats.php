@@ -6,7 +6,7 @@ $pdo = new PDO(
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 );
 
-/* TAUX DE PRESENCE */
+/* Taux de presence */
 $stmt = $pdo->query("
     SELECT 
         COUNT(*) AS totalInscrits,
@@ -25,7 +25,7 @@ if ($presence['totalInscrits'] > 0) {
     ) * 100;
 }
 
-/* TOP ANIMATIONS */
+/* Top 5 des animations */
 $stmt = $pdo->query("
     SELECT 
         a.Titre,
@@ -39,7 +39,7 @@ $stmt = $pdo->query("
 
 $topAnimations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/* HEURES LES PLUS FREQUENTEES */
+/* Heures les plus fréquente */
 $stmt = $pdo->query("
     SELECT 
         HOUR(DateHeureDeb) AS heure,
@@ -52,7 +52,7 @@ $stmt = $pdo->query("
 
 $heures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/* THEMES LES PLUS POPULAIRES */
+/* Thèmes les plus populaire */
 $stmt = $pdo->query("
     SELECT 
         t.libelle AS theme,
