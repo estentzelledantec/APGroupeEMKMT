@@ -11,18 +11,18 @@ if (isset($bdd) && isset($email)) {
     $user_admin = $stmt_admin->fetch();
 
     // --- PARTIE B : Recherche chez les Élèves ---
-    $stmt_eleve = $$bdd->prepare("SELECT * FROM inscrit WHERE emel = :email");
+    $stmt_eleve = $bdd->prepare("SELECT * FROM inscrit WHERE emel = :email");
     $stmt_eleve->execute(['email' => $email]);
     $user_eleve = $stmt_eleve->fetch();
 
     // --- PARTIE C : Recherche chez les Animateurs ---
-    $stmt_anim = $$bdd->prepare("SELECT * FROM animateur WHERE emel = :email");
+    $stmt_anim = $bdd->prepare("SELECT * FROM animateur WHERE emel = :email");
     $stmt_anim->execute(['email' => $email]);
     $user_anim = $stmt_anim->fetch();
 
     // --- PARTIE D : Vérification Animation en cours (pour les intervenants) ---
     // Cette requête n'est lancée que si on a trouvé un animateur
-    $stmt_actu = $$bdd->prepare('SELECT * FROM animation 
+    $stmt_actu = $bdd->prepare('SELECT * FROM animation 
                                 WHERE DateHeureDeb < NOW() AND DateHeureFin > NOW()');
     $stmt_actu->execute();
     $animation_en_cours = $stmt_actu->fetch();
