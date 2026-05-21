@@ -6,7 +6,7 @@
 if (isset($bdd) && isset($email)) {
 
     // --- PARTIE A : Recherche dans l'Administration ---
-    $stmt_admin = $$bdd->prepare("SELECT * FROM administration WHERE emel = :email");
+    $stmt_admin = $bdd->prepare("SELECT * FROM administration WHERE emel = :email");
     $stmt_admin->execute(['email' => $email]);
     $user_admin = $stmt_admin->fetch();
 
